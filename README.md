@@ -31,4 +31,25 @@
 - Azure Container Instances
 - IBM Cloud Kubernetes Service
 
-## Managed Services For K8
+## Why not to use Kubernetes
+
+- In order to take advantage of its features, developers and IT operators must have knowledge of containers, network, security, portability, resiliency, and Kubernetes itself. To make proper use of its workloads, you should understand how each component works. To manage a cluster, you should understand its architecture, storage, API, and administrative system, which is a lot different from traditional virtualized environments.
+- Kubernetes is a platform designed to boost performance and reduce the operational effort of distributed systems. It basically makes a complex scenario, like microservices, less operationally complex. It is best not to use it due to it's complexity If you're not dealing with many applications.
+
+## Use Cases
+
+- <b>Microservices architecture:</b> A use case where you want to deploy a more complicated app with many components that will communicate with one another is a classic scenario for Kubernetes.
+- <b>Local servers to cloud:</b> frequently today, as software is migrated from on-prem infrastructure to cloud solutions  First, such a big app working outside the cloud is moved to the same big app in Kubernetes.
+- <b> Computing power Balance:</b>  Kubernetes cluster is a good solution to manage the distribution of computing power across multiple computers.
+- <b> CI/CD :</b> Kubernetes also brings considerable benefits to Continuous Integration/Continuous Deployment or Continuous Delivery methodology.
+
+
+## Managed Services
+
+Managed Kubernetes is when third-party providers take over responsibility for some or all of the work necessary for the successful set-up and operation of K8s. Some managed platforms include 
+
+- Google Kubernetes Engine (GKE)
+- AWS Elastic Container Service for Kubernetes (Amazon EKS)
+- OpenShift
+
+In Short if, we are looking for a way to take advantage of the benefits of Kubernetes with a hands-off approach, a fully managed platform solution is ideal.
