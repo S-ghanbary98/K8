@@ -38,6 +38,8 @@
 
 ## Use Cases
 
+![](architecture1.png)
+
 - <b>Microservices architecture:</b> A use case where you want to deploy a more complicated app with many components that will communicate with one another is a classic scenario for Kubernetes.
 - <b>Local servers to cloud:</b> frequently today, as software is migrated from on-prem infrastructure to cloud solutions  First, such a big app working outside the cloud is moved to the same big app in Kubernetes.
 - <b> Computing power Balance:</b>  Kubernetes cluster is a good solution to manage the distribution of computing power across multiple computers.
@@ -53,3 +55,98 @@ Managed Kubernetes is when third-party providers take over responsibility for so
 - OpenShift
 
 In Short if, we are looking for a way to take advantage of the benefits of Kubernetes with a hands-off approach, a fully managed platform solution is ideal.
+
+## K8 Commands
+
+- Some K8 commands can be seen below..
+
+```python
+kubectl get service         =====> Lists all services
+kubectl get node            =====> Lists all nodes
+kubectl get pods            =====> Lists all pods
+```
+
+
+### Running Nginx Using K8
+
+- Firstly, we need to create a YAML file. The file is used to create the pod. 
+- The YAML file in this case is called 'nginx_k8_deploy.yml'.
+- The following below is what is contained within the YAML file.
+
+```yml
+## nginx_k8_deploy.yml
+
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: nginx-deployment
+
+spec:
+  selector:
+    matchLabels:
+      app: nginx    # looks for label to match k8 services
+      
+  replicas: 2    #Creates two pods
+
+  template:
+    metadata:
+      labels:
+        app: nginx
+
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+```
+- We can now move on to creating.
+- We do this via `kubectl create -f nginx_k8_deploy.yml`.
+- We can verify that all is well if we see the following when we enter the command `kubectl get service`.
+
+![](screen.png)
+
+- Next We create a YAML file called 'nginx_service.yml'.
+- The file will contain the following.
+
+```yml
+## nginx_service.yml
+apiVersion: v1
+kind: Service
+
+
+metadata:
+ creationTimestamp: "2021-08-23T11:07:26Z"
+ name: nginx-deployment
+ namespace: default
+ resourceVersion: "40883"
+ uid: 9190ab75-d61c-4ff4-a3d1-0d293fa8d72e
+
+
+spec: 
+#  clusterIP: 10.96.0.1
+#  clusterIPs:
+#  - 10.96.0.1
+#  externalTrafficPolicy: Cluster
+#  ipFamilies:
+#  - IPv4
+#  ipFamilyPolicy: SingleStack
+ ports:
+ - nodePort: 30442
+   port: 80
+   protocol: TCP
+   targetPort: 80
+ selector:
+   app: nginx
+ sessionAffinity: None
+ type: LoadBalancer
+status:
+ loadBalancer:
+   ingress:
+   - hostname: localhost
+```
+- We can now successfully see nginx on localhost.
+
+
+## MongoDb, NodeJS, Docker and Kubernetes 
