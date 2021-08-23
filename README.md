@@ -13,3 +13,16 @@
 - <b>Stability: </b>allows you to have rolling updates to change your software without downtime. It is further possible to set up Kubernetes in a way that it supports high availability applications and if you are using the public cloud services of major vendors, you can be pretty sure to reach a very high uptime.
 - <b>Load Balancing :</b> Can distributing a set of tasks over a set of resources, with the aim of making their overall processing more efficient.
 - <b>Self healing:</b> If failures occur k8 will rectify this by spinning up a new resource to replace the broken one.
+
+## Drawbacks
+- <b>Complex: </b>Kubernetes is infamously known for its complexity. Especially for developers not familiar with infrastructure technologies, it can be very hard to get used to the Kubernetes development workflow.
+
+
+
+
+## Competitors
+- Mirantis Cloud Native Suite
+- Amazon Elastic Container Service
+- Red Hat OpenShift
+- Azure Container Instances
+- IBM Cloud Kubernetes Service
