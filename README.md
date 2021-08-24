@@ -60,10 +60,15 @@ In Short if, we are looking for a way to take advantage of the benefits of Kuber
 
 - Some K8 commands can be seen below..
 
-```python
-kubectl get service         =====> Lists all services
-kubectl get node            =====> Lists all nodes
-kubectl get pods            =====> Lists all pods
+```yml
+kubectl get service           =====> Lists all services
+kubectl get node              =====> Lists all nodes
+kubectl get pods              =====> Lists all pods
+kubectl get deploy            =====> Lists all deployments
+kubectl create <YML> -f       =====> Creates Service 
+kubectl edit deploy <NAME>    =====> Edit file
+kubectl edit svc <NAME>       =====> Edit file
+kubectl delete deploy <NAME>  =====> Delete pod
 ```
 
 
@@ -108,8 +113,9 @@ spec:
 ![](screen.png)
 
 - Next We create a YAML file called 'nginx_service.yml'.
+  
 - The file will contain the following.
-
+- We then create via `kubectl create -f nginx_service.yml`
 ```yml
 ## nginx_service.yml
 apiVersion: v1
@@ -150,3 +156,6 @@ status:
 
 
 ## MongoDb, NodeJS, Docker and Kubernetes 
+
+- In this iteration we will be deploying the node app with mongodb on a docker container using kubernetes.
+- We are going to need four files. Two for nginx deployment and service and two for the Mongodb

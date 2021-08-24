@@ -1,0 +1,27 @@
+
+## nginx_k8_deploy.yml
+
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: nginx-deployment
+
+spec:
+  selector:
+    matchLabels:
+      app: nginx    # looks for label to match k8 services
+
+  replicas: 2    #Creates two pods
+
+  template:
+    metadata:
+      labels:
+        app: nginx
+
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
