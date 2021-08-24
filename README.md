@@ -72,6 +72,12 @@ kubectl delete deploy <NAME>  =====> Delete pod
 ```
 
 
+## K8 Definitions
+<b> Pod :</b> A collection of containers that run on a host. Pods are created by clients and scheduled onto hosts.
+<b> Deployment :</b> Deployment enables declarative updates for pods and ReplicasSets.
+
+
+
 ### Running Nginx Using K8
 
 - Firstly, we need to create a YAML file. The file is used to create the pod. 
@@ -263,7 +269,6 @@ spec:
 ```
 
 - Now we create node-service.yml.
-- We also create node-hpa.yml
 
 ```yml
 ## node-service.yml
@@ -281,6 +286,12 @@ spec:
 
 ```
 
+## Horizontal Auto Scaling
+
+#### What is Horizontal pod Autoscaler?
+
+- Horizontal pod autoscaling changes the shape of the kubernetes workload by automatically increasing or decreasing the number of Pods in response to the CPU workload, memory consumption or some other metric within kubernetes.
+
 ```yml
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
@@ -290,14 +301,31 @@ metadata:
   namespace: default
 
 spec:
-  maxReplicas: 9
+  maxReplicas: 10
   minReplicas: 2
-  # target your node-app-deployment so the 
-  # hpa knows which deployment to scale up on demand, scale down when no longer
+  
   scaleTargetRef:
     apiVersion: app/v1
     kind: Deployment
     name: node
   targetCPUUtilizationPercentage: 50
+
+```
+
+## Deploying PHP, Frontend 
+
+- In this task we are given files for a php backend and a HTML/JS frontend with the aim of deploying the application using kubernetes.
+- The full stack application can be found in the PHP folder.
+- We effectively have to create pods for all the yml files.
+- The following command below in sequence will start up the application.
+
+
+```yaml
+
+kubectl apply -f mongo-deployment.yml
+kubectl apply -f mongo-service.yml
+
+kubectl apply -f mongo-deployment.yml
+kubectl apply -f mongo-service.yml
 
 ```
