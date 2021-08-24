@@ -312,7 +312,7 @@ spec:
 
 ```
 
-## Deploying PHP, Frontend 
+## Deploying PHP, Frontend APP
 
 - In this task we are given files for a php backend and a HTML/JS frontend with the aim of deploying the application using kubernetes.
 - The full stack application can be found in the PHP folder.
