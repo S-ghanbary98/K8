@@ -155,7 +155,149 @@ status:
 - We can now successfully see nginx on localhost.
 
 
+
+
 ## MongoDb, NodeJS, Docker and Kubernetes 
 
 - In this iteration we will be deploying the node app with mongodb on a docker container using kubernetes.
-- We are going to need four files. Two for nginx deployment and service and two for the Mongodb
+- We are going to need four files. Two for nginx deployment and service and two for the Mongodb.
+- Our first priority, is to create the nginx Server. The following can be seen in the previous iteration.
+- Next we create our mongo database via the following.
+
+```yml
+## mongo-deployment.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo
+  
+  
+spec:
+  selector:
+    matchLabels:
+      app: mongo
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+        - name: mongo
+          image: mongo
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: storage
+              mountPath: /data/db
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: mongo-db
+
+```
+
+- Then the mongo-service.yml file.
+
+```yml
+# mongo-service.yml
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-db
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 256Mi
+      
+      
+      
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+spec:
+  selector:
+    app: mongo
+  ports:
+    - port: 27017
+      targetPort: 27017
+```
+
+- We now run the file to create a pod for the node app. 
+- The first file to create is called node_deployment and can be seen below.
+
+```yml
+# node_deployment.yml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node
+  
+  
+spec:
+  selector:
+    matchLabels:
+      app: node
+      
+  replicas: 3
+  template: 
+    metadata:
+      labels:
+        app: node
+    spec:
+      containers:
+        - name: node
+          image: monotiller/eng89_node_app
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DB_HOST
+              value: mongodb://mongo:27017/posts
+          imagePullPolicy: Always
+```
+
+- Now we create node-service.yml.
+- We also create node-hpa.yml
+
+```yml
+## node-service.yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: node
+spec:
+  selector:
+    app: node
+  ports:
+    - port: 3000
+      targetPort: 3000
+  type: LoadBalancer    
+
+```
+
+```yml
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+
+metadata:
+  name: node
+  namespace: default
+
+spec:
+  maxReplicas: 9
+  minReplicas: 2
+  # target your node-app-deployment so the 
+  # hpa knows which deployment to scale up on demand, scale down when no longer
+  scaleTargetRef:
+    apiVersion: app/v1
+    kind: Deployment
+    name: node
+  targetCPUUtilizationPercentage: 50
+
+```

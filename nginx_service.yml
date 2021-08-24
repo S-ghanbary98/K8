@@ -12,7 +12,6 @@ metadata:
 
 
 spec:
-
  ports:
  - nodePort: 30442
    port: 80
