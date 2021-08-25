@@ -390,6 +390,8 @@ spec:
 
 ## Kompose Convert
 
+![](download.png)
+
 - Kompose convert allows us to convert docker files into kubernetes resources for ease of use.
 - You need to have a Kubernetes cluster, and the kubectl command-line tool must be configured to communicate with your cluster.
 - Kompose has to be installed. For mac the command is `curl -L https://github.com/kubernetes/kompose/releases/download/v1.22.0/kompose-darwin-amd64 -o kompose` or `brew install kompose`.
