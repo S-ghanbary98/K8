@@ -1,6 +1,6 @@
 # Kubernetes
 
-![](Kubernetes_New.png)
+![](app/Kubernetes_New.png)
 
 ##### What is Kubernetes
 
@@ -117,7 +117,7 @@ spec:
 - We do this via `kubectl create -f nginx_k8_deploy.yml`.
 - We can verify that all is well if we see the following when we enter the command `kubectl get service`.
 
-![](screen.png)
+![](app/screen.png)
 
 - Next We create a YAML file called 'nginx_service.yml'.
   
@@ -291,7 +291,7 @@ spec:
 
 #### What is Horizontal pod Autoscaling?
 
-![](horizontal-pod-autoscaler.svg)
+![](app/horizontal-pod-autoscaler.svg)
 
 - Horizontal pod autoscaling changes the shape of the kubernetes workload by automatically increasing or decreasing the number of Pods in response to the CPU workload, memory consumption or some other metric within kubernetes.
 
@@ -334,7 +334,7 @@ kubectl apply -f mongo-service.yml
 
 ## Cronjob
 
-![](Cron.png)
+![](app/Cron.png)
 
 ##### What is cronjob?
 
@@ -384,13 +384,13 @@ spec:
 - `kubectl get cronjob` will give its status.
 - `kubectl get jobs --watch` will give you an output like the following below,
 
-![](Capture.PNG)
+![](app/Capture.PNG)
 
 - pods=$(kubectl get pods --selector=job-name=<>JOB NAME>  --output=jsonpath={.items[*].metadata.name})
 
 ## Kompose Convert
 
-![](download.png)
+![](app/download.png)
 
 - Kompose convert allows us to convert docker files into kubernetes resources for ease of use.
 - You need to have a Kubernetes cluster, and the kubectl command-line tool must be configured to communicate with your cluster.
