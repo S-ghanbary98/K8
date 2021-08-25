@@ -58,7 +58,7 @@ In Short if, we are looking for a way to take advantage of the benefits of Kuber
 
 ## K8 Commands
 
-- Some K8 commands can be seen below..
+- Some K8 commands can be seen below.
 
 ```yml
 kubectl get service           =====> Lists all services
@@ -69,6 +69,7 @@ kubectl create <YML> -f       =====> Creates Service
 kubectl edit deploy <NAME>    =====> Edit file
 kubectl edit svc <NAME>       =====> Edit file
 kubectl delete deploy <NAME>  =====> Delete pod
+kubectl get all               =====> Everythin running displayed
 ```
 
 
@@ -288,7 +289,9 @@ spec:
 
 ## Horizontal Auto Scaling
 
-#### What is Horizontal pod Autoscaler?
+#### What is Horizontal pod Autoscaling?
+
+![](horizontal-pod-autoscaler.svg)
 
 - Horizontal pod autoscaling changes the shape of the kubernetes workload by automatically increasing or decreasing the number of Pods in response to the CPU workload, memory consumption or some other metric within kubernetes.
 
@@ -312,7 +315,7 @@ spec:
 
 ```
 
-## Deploying PHP, Frontend APP
+## Deploying PHP, Frontend APP 
 
 - In this task we are given files for a php backend and a HTML/JS frontend with the aim of deploying the application using kubernetes.
 - The full stack application can be found in the PHP folder.
@@ -327,3 +330,62 @@ kubectl apply -f mongo-service.yml
 kubectl apply -f mongo-deployment.yml
 kubectl apply -f mongo-service.yml
 ```
+
+
+## Cronjob
+
+![](Cron.png)
+
+##### What is cronjob?
+
+- A CronJob creates Jobs on a repeating schedule. One CronJob object is like one line of a crontab (cron table) file. It runs a job periodically on a given schedule, written in Cron format.CronJobs are meant for performing regular scheduled actions such as backups, report generation, and so on. Each of those tasks should be configured to recur indefinitely (for example: once a day / week / month); you can define the point in time within that interval when the job should start.
+- It follows the following syntax.
+```
+# Cron schedule syntax
+#      ┌────────────────── timezone (optional)
+#      |      ┌───────────── minute (0 - 59)
+#      |      │ ┌───────────── hour (0 - 23)
+#      |      │ │ ┌───────────── day of the month (1 - 31)
+#      |      │ │ │ ┌───────────── month (1 - 12)
+#      |      │ │ │ │ ┌───────────── day of the week (0 - 6) (Sunday to Saturday;
+#      |      │ │ │ │ │                                   7 is also Sunday on some systems)
+#      |      │ │ │ │ │
+#      |      │ │ │ │ │
+# CRON_TZ=UTC * * * * *
+```
+
+##### Example
+
+- First we must create a cron-job.yml which will contain the following.
+
+```yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "*/1 * * * *"      # Schedule to run a job every minute
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: busybox
+            imagePullPolicy: IfNotPresent
+            command:
+            - /bin/sh
+            - -c
+            - date; echo thank you for using cronjob
+
+          restartPolicy: OnFailure
+```
+- Next we create it via `kubectl apply -f cron-job.yml`.
+- `kubectl get cronjob` will give its status.
+- `kubectl get jobs --watch` will give you an output like the following below,
+
+![](Capture.PNG)
+
+- # pods=$(kubectl get pods --selector=job-name=<>JOB NAME>  --output=jsonpath={.items[*].metadata.name})
+
+## Kompose Convert
