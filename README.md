@@ -259,7 +259,7 @@ spec:
     spec:
       containers:
         - name: node
-          image: monotiller/eng89_node_app
+          image: sherv1360/node_app
           ports:
             - containerPort: 3000
           env:
@@ -297,7 +297,7 @@ apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 
 metadata:
-  name: node
+  name: node-app
   namespace: default
 
 spec:
@@ -321,11 +321,9 @@ spec:
 
 
 ```yaml
-
 kubectl apply -f mongo-deployment.yml
 kubectl apply -f mongo-service.yml
 
 kubectl apply -f mongo-deployment.yml
 kubectl apply -f mongo-service.yml
-
 ```
